@@ -23,16 +23,16 @@
           <td>{{ order.o_id }}</td>
           <td>{{ order.client_name }}</td>
           <td>
-            <span v-for="(diet, dietIndex) in order.diets" :key="dietIndex">
+            <template v-for="(diet, dietIndex) in order.diets">
               {{ diet }}
-              <br v-if="dietIndex !== order.diets.length - 1" />
-            </span>
+              <hr v-if="dietIndex !== order.diets.length - 1" />
+            </template>
           </td>
           <td>
-            <span v-for="(tariff, tariffIndex) in order.tariff" :key="tariffIndex">
+            <template v-for="(tariff, tariffIndex) in order.tariff">
               {{ tariff }}
-              <br v-if="tariffIndex !== order.tariff.length - 1" />
-            </span>
+              <hr v-if="tariffIndex !== order.tariff.length - 1" />
+            </template>
           </td>
           <td>{{ order.dates[0].start_date }}</td>
           <td>{{ order.dates[0].end_date }}</td>
@@ -43,6 +43,11 @@
           <td>{{ order.courier_comment }}</td>
           <td>{{ order.inner_comment }}</td>
           <td>{{ getOrderStatus(order) }}</td>
+        </tr>
+        <tr v-if="sortedData.length > 0">
+          <td colspan="13">
+            <hr />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -71,6 +76,7 @@ export default {
         const aValue = this.getNestedPropertyValue(a, this.sortColumn);
         const bValue = this.getNestedPropertyValue(b, this.sortColumn);
 
+        // Дополнительная обработка для столбца "Статус"
         if (this.sortColumn === 'status') {
           if (this.sortOrder === 'asc') {
             return a.statusValue - b.statusValue;
@@ -130,6 +136,7 @@ export default {
   },
 };
 </script>
+
 
 
 
